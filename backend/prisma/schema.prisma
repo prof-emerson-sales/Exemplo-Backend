@@ -22,7 +22,5 @@ model Produtos {
   precoProduto     Decimal @db.Decimal(10, 2)
 
   usuarioCpf        String  
-  administradorCpf  String
-  administrador     Administrador @relation(fields: [administradorCpf], references: [cpf])
   usuario           Usuarios @relation(fields: [usuarioCpf], references: [cpf])
 }
