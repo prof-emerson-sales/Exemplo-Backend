@@ -1,0 +1,99 @@
+.editar-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 48px 20px;
+  background: #f7f8fa;
+  color: #263238;
+}
+
+.editar-card {
+  width: 100%;
+  max-width: 560px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 32px;
+  border: 1px solid #dce4e6;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(31, 52, 58, 0.08);
+  text-align: left;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 40px;
+  color: #087f8c;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.editar-card h1 {
+  margin: 0 0 8px;
+  color: #16252b;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  letter-spacing: -0.04em;
+}
+
+.cpf-label {
+  margin-bottom: 28px;
+  color: #65747b;
+}
+
+.editar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.editar-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #263238;
+  font-weight: 700;
+}
+
+.editar-form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #c9d6d8;
+  border-radius: 8px;
+  color: #263238;
+  font: inherit;
+}
+
+.editar-form input:focus {
+  border-color: #087f8c;
+  outline: 3px solid rgba(8, 127, 140, 0.14);
+}
+
+.editar-form button {
+  margin-top: 8px;
+  padding: 13px 18px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: #087f8c;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.editar-form button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.status-message.erro {
+  padding: 14px 16px;
+  border-radius: 8px;
+  color: #9c2f2f;
+  background: #fff0f0;
+}
+
+@media (max-width: 520px) {
+  .editar-card {
+    padding: 24px 20px;
+  }
+}

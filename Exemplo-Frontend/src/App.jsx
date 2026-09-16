@@ -1,20 +1,16 @@
-import { useState } from 'react'
-import { Routes, Route } from "react-router-dom";
-import CadastroUsuario from './Componentes/CadastroUsuario/CadastroUsuario'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom";
+import CadastroUsuario from "./Componentes/CadastroUsuario/CadastroUsuario";
+import EditarUsuario from "./Componentes/EditarUsuario/EditarUsuario";
+import ListaUsuarios from "./Componentes/ListaUsuarios/ListaUsuarios";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <Routes>
-        <Route path="/CadastroUsuario" element={<CadastroUsuario />}></Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/CadastroUsuario" element={<CadastroUsuario />} />
+      <Route path="/Usuarios" element={<ListaUsuarios />} />
+      <Route path="/Usuarios/:cpf/editar" element={<EditarUsuario />} />
+    </Routes>
   )
 }
 

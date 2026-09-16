@@ -1,0 +1,152 @@
+.usuarios-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 48px clamp(20px, 5vw, 64px);
+  background: #f7f8fa;
+  color: #263238;
+  text-align: left;
+}
+
+.usuarios-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1120px;
+  margin: 0 auto 32px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #087f8c;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.usuarios-header h1 {
+  margin: 0 0 8px;
+  color: #16252b;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  letter-spacing: -0.04em;
+}
+
+.usuarios-header p:not(.eyebrow) {
+  color: #65747b;
+}
+
+.secondary-button,
+.edit-button,
+.delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.secondary-button {
+  padding: 12px 18px;
+  border: 1px solid #b6d6d9;
+  color: #087f8c;
+  background: #fff;
+  white-space: nowrap;
+}
+
+.usuarios-table-wrapper {
+  max-width: 1120px;
+  margin: 0 auto;
+  overflow-x: auto;
+  border: 1px solid #dce4e6;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(31, 52, 58, 0.08);
+}
+
+.usuarios-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.usuarios-table th,
+.usuarios-table td {
+  padding: 17px 20px;
+  border-bottom: 1px solid #edf0f1;
+}
+
+.usuarios-table th {
+  color: #65747b;
+  background: #f8fafb;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.usuarios-table td {
+  color: #263238;
+}
+
+.usuarios-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.action-cell {
+  width: 1%;
+  text-align: right;
+}
+
+.edit-button {
+  padding: 9px 14px;
+  color: #fff;
+  background: #087f8c;
+}
+
+.delete-button {
+  margin-left: 8px;
+  padding: 9px 14px;
+  border: 0;
+  color: #9c2f2f;
+  background: #fff0f0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.delete-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.secondary-button:hover,
+.edit-button:hover,
+.delete-button:hover:not(:disabled) {
+  filter: brightness(0.94);
+}
+
+.status-message,
+.empty-message {
+  max-width: 1120px;
+  margin: 32px auto;
+  color: #65747b;
+}
+
+.status-message.erro {
+  padding: 14px 16px;
+  border-radius: 8px;
+  color: #9c2f2f;
+  background: #fff0f0;
+}
+
+@media (max-width: 640px) {
+  .usuarios-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .secondary-button {
+    align-self: flex-start;
+  }
+}
