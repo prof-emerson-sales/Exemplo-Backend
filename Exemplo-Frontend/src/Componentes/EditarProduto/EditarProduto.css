@@ -1,0 +1,37 @@
+.produto-editar-page {
+  background: #f5f9ff;
+}
+
+.produto-editar-card {
+  max-width: 640px;
+}
+
+.produto-editar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.produto-editar-form input,
+.produto-editar-form textarea,
+.produto-editar-form select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #c9d6e6;
+  border-radius: 8px;
+  color: #263238;
+  font: inherit;
+  background: #fff;
+}
+
+.produto-editar-form textarea {
+  resize: vertical;
+}
+
+.produto-editar-form input:focus,
+.produto-editar-form textarea:focus,
+.produto-editar-form select:focus {
+  border-color: #3d7bd9;
+  outline: 3px solid rgba(61, 123, 217, 0.14);
+}

@@ -1,0 +1,75 @@
+.produto-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef7ff 0%, #f2ecff 100%);
+  padding: 32px 16px;
+}
+
+.produto-card {
+  width: 100%;
+  max-width: 620px;
+}
+
+.produto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.produto-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  color: #2f3b4a;
+}
+
+.produto-form input,
+.produto-form textarea,
+.produto-form select {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #d6dfe9;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: #aaa;
+}
+
+.produto-form textarea {
+  resize: vertical;
+}
+
+.produto-form input:focus,
+.produto-form textarea:focus,
+.produto-form select:focus {
+  border-color: #3d7bd9;
+  box-shadow: 0 0 0 3px rgba(61, 123, 217, 0.12);
+}
+
+.produto-form button {
+  margin-top: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3d7bd9 0%, #244f9b 100%);
+  color: #fff;
+  padding: 14px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.produto-form button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.status-message {
+  margin: 0 0 24px;
+  color: #516070;
+}
