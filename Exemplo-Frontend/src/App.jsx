@@ -76,7 +76,7 @@ function App() {
         <Route path="/Produtos" element={<ProtectedRoute><ListaProdutos /></ProtectedRoute>} />
         <Route path="/Produtos/:idProdutos/editar" element={<ProtectedRoute><EditarProduto /></ProtectedRoute>} />
 
-        <Route path="*" element={<Navigate to="/Produtos" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </>
   );
