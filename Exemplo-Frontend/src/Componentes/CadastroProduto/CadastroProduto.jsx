@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./CadastroProduto.css";
 
 const API_URL = "http://localhost:3000/Produtos";
-const USUARIOS_URL = "http://localhost:3000/Usuarios";
 
 function CadastroProduto() {
   const [form, setForm] = useState({
@@ -11,34 +10,15 @@ function CadastroProduto() {
     precoProduto: "",
     usuarioCpf: "",
   });
-  const [usuarios, setUsuarios] = useState([]);
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
   const [carregando, setCarregando] = useState(false);
-  const [carregandoUsuarios, setCarregandoUsuarios] = useState(true);
 
   useEffect(() => {
-    async function carregarUsuarios() {
-      try {
-        const response = await fetch(USUARIOS_URL);
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Não foi possível carregar os usuários.");
-        }
-
-        setUsuarios(data);
-        if (data.length > 0) {
-          setForm((prev) => ({ ...prev, usuarioCpf: data[0].cpf }));
-        }
-      } catch (error) {
-        setErro(error.message);
-      } finally {
-        setCarregandoUsuarios(false);
-      }
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
+    if (usuarioLogado?.cpf) {
+      setForm((prev) => ({ ...prev, usuarioCpf: usuarioLogado.cpf }));
     }
-
-    carregarUsuarios();
   }, []);
 
   function handleChange(event) {
@@ -53,10 +33,12 @@ function CadastroProduto() {
     setErro("");
 
     try {
+      const token = localStorage.getItem("authToken");
       const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(form),
       });
@@ -68,12 +50,13 @@ function CadastroProduto() {
       }
 
       setMensagem("Produto cadastrado com sucesso!");
-      setForm({
+      setForm((prev) => ({
+        ...prev,
         tipoProduto: "",
         descricaoProduto: "",
         precoProduto: "",
-        usuarioCpf: usuarios[0]?.cpf || "",
-      });
+        usuarioCpf: JSON.parse(localStorage.getItem("usuarioLogado") || "null")?.cpf || "",
+      }));
     } catch (error) {
       setErro(error.message);
     } finally {
@@ -85,13 +68,7 @@ function CadastroProduto() {
     <div className="cadastro-page produto-page">
       <div className="cadastro-card produto-card">
         <h1>Criar produto</h1>
-        <p>Preencha os dados do produto e escolha o usuário responsável.</p>
-
-        {carregandoUsuarios ? (
-          <p className="status-message">Carregando usuários...</p>
-        ) : usuarios.length === 0 ? (
-          <p className="erro">Cadastre um usuário antes de criar um produto.</p>
-        ) : null}
+        <p>Preencha os dados do produto para o usuário logado.</p>
 
         <form onSubmit={handleSubmit} className="cadastro-form produto-form">
           <label>
@@ -133,23 +110,15 @@ function CadastroProduto() {
           </label>
 
           <label>
-            Usuário
-            <select
-              name="usuarioCpf"
-              value={form.usuarioCpf}
-              onChange={handleChange}
-              required
-              disabled={usuarios.length === 0}
-            >
-              {usuarios.map((usuario) => (
-                <option key={usuario.cpf} value={usuario.cpf}>
-                  {usuario.nomeUsuario} - {usuario.cpf}
-                </option>
-              ))}
-            </select>
+            Usuário responsável
+            <input
+              type="text"
+              value={form.usuarioCpf || "Usuário não identificado"}
+              readOnly
+            />
           </label>
 
-          <button type="submit" disabled={carregando || usuarios.length === 0}>
+          <button type="submit" disabled={carregando || !form.usuarioCpf}>
             {carregando ? "Cadastrando..." : "Cadastrar produto"}
           </button>
         </form>

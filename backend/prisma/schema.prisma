@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"  
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -11,6 +11,7 @@ model Usuarios {
   nomeUsuario  String @db.VarChar(100)
   emailUsuario String @unique @db.VarChar(250)
   senhaUsuario String @db.VarChar(100)
+  admin        Boolean @default(false)
 
   produtos     Produtos[]
 }
@@ -21,6 +22,6 @@ model Produtos {
   descricaoProduto String  @db.VarChar(500)
   precoProduto     Decimal @db.Decimal(10, 2)
 
-  usuarioCpf        String  
+  usuarioCpf        String
   usuario           Usuarios @relation(fields: [usuarioCpf], references: [cpf])
 }

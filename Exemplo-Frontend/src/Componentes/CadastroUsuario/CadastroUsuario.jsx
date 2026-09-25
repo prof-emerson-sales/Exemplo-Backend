@@ -7,6 +7,7 @@ function CadastroUsuario() {
     nomeUsuario: "",
     emailUsuario: "",
     senhaUsuario: "",
+    admin: false,
   });
 
   const [mensagem, setMensagem] = useState("");
@@ -14,8 +15,11 @@ function CadastroUsuario() {
   const [carregando, setCarregando] = useState(false);
 
   function handleChange(event) {
-    const { name, value } = event.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const { name, type, checked, value } = event.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   }
 
   async function handleSubmit(event) {
@@ -25,14 +29,16 @@ function CadastroUsuario() {
     setErro("");
 
     try {
+      const token = localStorage.getItem("authToken");
       const response = await fetch("http://localhost:3000/Usuarios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(form),
       });
-      console.log("Resposta do servidor:", response);
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -45,6 +51,7 @@ function CadastroUsuario() {
         nomeUsuario: "",
         emailUsuario: "",
         senhaUsuario: "",
+        admin: false,
       });
     } catch (error) {
       setErro(error.message);
@@ -106,6 +113,16 @@ function CadastroUsuario() {
               placeholder="Digite a senha"
               required
             />
+          </label>
+
+          <label className="checkbox-row">
+            <input
+              type="checkbox"
+              name="admin"
+              checked={form.admin}
+              onChange={handleChange}
+            />
+            Usuário administrador
           </label>
 
           <button type="submit" disabled={carregando}>

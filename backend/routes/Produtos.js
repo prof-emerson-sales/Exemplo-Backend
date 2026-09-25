@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const prisma = require("../prisma/client");
+const { authMiddleware } = require("../auth");
+
+router.use(authMiddleware);
 
 function normalizarProduto(produto) {
   if (!produto) return null;
