@@ -13,7 +13,12 @@ function ListaUsuarios() {
   useEffect(() => {
     async function carregarUsuarios() {
       try {
-        const response = await fetch(API_URL);
+        const token = localStorage.getItem("authToken");
+        const response = await fetch(API_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
 
         if (!response.ok) {
@@ -40,8 +45,12 @@ function ListaUsuarios() {
     setErro("");
 
     try {
+      const token = localStorage.getItem("authToken");
       const response = await fetch(`${API_URL}/${encodeURIComponent(cpf)}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await response.json();
 

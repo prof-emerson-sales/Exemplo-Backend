@@ -13,7 +13,12 @@ function ListaProdutos() {
   useEffect(() => {
     async function carregarProdutos() {
       try {
-        const response = await fetch(API_URL);
+        const token = localStorage.getItem("authToken");
+        const response = await fetch(API_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
 
         if (!response.ok) {
@@ -40,8 +45,12 @@ function ListaProdutos() {
     setErro("");
 
     try {
+      const token = localStorage.getItem("authToken");
       const response = await fetch(`${API_URL}/${encodeURIComponent(idProdutos)}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await response.json();
 

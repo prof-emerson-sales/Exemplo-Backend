@@ -19,7 +19,12 @@ function EditarUsuario() {
   useEffect(() => {
     async function carregarUsuario() {
       try {
-        const response = await fetch(`${API_URL}/${encodeURIComponent(cpf)}`);
+        const token = localStorage.getItem("authToken");
+        const response = await fetch(`${API_URL}/${encodeURIComponent(cpf)}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
 
         if (!response.ok) {
@@ -52,9 +57,13 @@ function EditarUsuario() {
     setErro("");
 
     try {
+      const token = localStorage.getItem("authToken");
       const response = await fetch(`${API_URL}/${encodeURIComponent(cpf)}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(form),
       });
       const data = await response.json();

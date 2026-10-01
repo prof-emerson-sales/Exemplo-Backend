@@ -22,9 +22,11 @@ function EditarProduto() {
   useEffect(() => {
     async function carregarDados() {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = { Authorization: `Bearer ${token}` };
         const [produtoResponse, usuariosResponse] = await Promise.all([
-          fetch(`${API_URL}/${encodeURIComponent(idProdutos)}`),
-          fetch(USUARIOS_URL),
+          fetch(`${API_URL}/${encodeURIComponent(idProdutos)}`, { headers }),
+          fetch(USUARIOS_URL, { headers }),
         ]);
 
         const produtoData = await produtoResponse.json();
@@ -66,9 +68,13 @@ function EditarProduto() {
     setErro("");
 
     try {
+      const token = localStorage.getItem("authToken");
       const response = await fetch(`${API_URL}/${encodeURIComponent(idProdutos)}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(form),
       });
       const data = await response.json();
