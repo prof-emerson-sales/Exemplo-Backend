@@ -1,3 +1,58 @@
+.app-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px clamp(12px, 3vw, 28px);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  text-align: left;
+}
+
+.app-nav a,
+.app-nav button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--text-h);
+  background: transparent;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.app-nav a:hover,
+.app-nav button:hover {
+  border-color: var(--border);
+  background: var(--social-bg);
+}
+
+.app-nav a:focus-visible,
+.app-nav button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.app-nav span {
+  margin-left: auto;
+  padding: 0 8px;
+  color: var(--text);
+  font-size: 15px;
+}
+
+@media (max-width: 560px) {
+  .app-nav span {
+    margin-left: 0;
+  }
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
