@@ -7,6 +7,7 @@ import CadastroProduto from "./Componentes/CadastroProduto/CadastroProduto";
 import ListaProdutos from "./Componentes/ListaProdutos/ListaProdutos";
 import EditarProduto from "./Componentes/EditarProduto/EditarProduto";
 import Login from "./Componentes/Login/Login";
+import LoginSessao from "./Componentes/Login/LoginSessao";
 import "./App.css";
 
 function getUsuarioSessao() {
@@ -55,6 +56,7 @@ function App() {
         <Link to="/Produtos">Produtos</Link>
         <Link to="/CadastroProduto">Cadastrar produto</Link>
         {usuarioAtual?.admin && <Link to="/CadastroUsuario">Cadastrar usuário</Link>}
+        <Link to="/login/sessao">Teste de sessão</Link>
         {usuarioAtual ? (
           <>
             <span>Olá, {usuarioAtual.nomeUsuario}</span>
@@ -67,6 +69,7 @@ function App() {
 
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/login/sessao" element={<LoginSessao />} />
 
         <Route path="/CadastroUsuario" element={<ProtectedRoute adminOnly><CadastroUsuario /></ProtectedRoute>} />
         <Route path="/Usuarios" element={<ProtectedRoute adminOnly><ListaUsuarios /></ProtectedRoute>} />

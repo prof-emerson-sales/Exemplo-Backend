@@ -2,13 +2,24 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usuariosRouter = require('./routes/Usuarios');
 var produtosRouter = require('./routes/Produtos');
+var sessaoRouter = require('./routes/Sessao');
 
 var app = express();
+var sessionSecret = process.env.SESSION_SECRET;
+var allowedOrigins = (process.env.FRONTEND_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173')
+  .split(',')
+  .map(function(origin) { return origin.trim(); })
+  .filter(Boolean);
+
+if (!sessionSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('SESSION_SECRET precisa ser definido em produção.');
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,7 +30,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  var origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Vary', 'Origin');
+  } else {
+    res.header('Access-Control-Allow-Origin', '*');
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
@@ -29,11 +47,23 @@ app.use((req, res, next) => {
 
   next();
 });
+app.use(session({
+  secret: sessionSecret || 'local-development-only-session-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 30 * 60 * 1000,
+  },
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/Usuarios', usuariosRouter);
 app.use('/Produtos', produtosRouter);
+app.use('/Sessao', sessaoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

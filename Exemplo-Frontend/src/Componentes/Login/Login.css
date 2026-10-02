@@ -1,0 +1,193 @@
+.login-session-page {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(ellipse at top left, rgba(123, 82, 171, 0.14), transparent 52%),
+    var(--bg);
+}
+
+.login-session-card {
+  width: min(100%, 520px);
+  box-sizing: border-box;
+  padding: 36px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.login-session-eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.login-session-card h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+}
+
+.login-session-intro {
+  margin: 0 0 28px;
+  color: var(--text);
+}
+
+.login-session-form,
+.login-session-account {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-session-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-h);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.login-session-form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-h);
+  background: var(--bg);
+  font: inherit;
+}
+
+.login-session-form input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.login-session-form button,
+.login-session-actions button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  color: #fff;
+  background: var(--accent);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.login-session-form button:hover:not(:disabled),
+.login-session-actions button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.login-session-form button:disabled,
+.login-session-actions button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.login-session-account {
+  gap: 10px;
+}
+
+.login-session-account h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.login-session-account > p {
+  margin: 0;
+}
+
+.login-session-badge {
+  align-self: flex-start;
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: #17643b;
+  background: #e8f7ee;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.login-session-account dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.login-session-account dl div {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.login-session-account dt {
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.login-session-account dd {
+  margin: 0;
+  color: var(--text-h);
+  overflow-wrap: anywhere;
+}
+
+.login-session-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.login-session-actions .login-session-logout {
+  border-color: var(--border);
+  color: var(--text-h);
+  background: transparent;
+}
+
+.login-session-feedback,
+.login-session-error {
+  margin: 18px 0 0;
+  padding: 11px 13px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.login-session-feedback {
+  color: #17643b;
+  background: #e8f7ee;
+}
+
+.login-session-error {
+  color: #a32121;
+  background: #fdecec;
+}
+
+.login-session-note {
+  margin: 22px 0 0;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 560px) {
+  .login-session-card {
+    padding: 26px 20px;
+  }
+
+  .login-session-account dl {
+    grid-template-columns: 1fr;
+  }
+}
