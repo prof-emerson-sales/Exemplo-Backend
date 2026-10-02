@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 
 const JWT_SECRET = process.env.JWT_SECRET || "exemplo-backend-secret";
+const TOKEN_TTL_SECONDS = 30 * 60;
 
 function base64UrlEncode(value) {
   return Buffer.from(value)
@@ -18,13 +19,15 @@ function base64UrlDecode(value) {
 
 function signUserToken(usuario) {
   const header = base64UrlEncode(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+  const issuedAt = Math.floor(Date.now() / 1000);
   const payload = base64UrlEncode(
     JSON.stringify({
       cpf: usuario.cpf,
       emailUsuario: usuario.emailUsuario,
       nomeUsuario: usuario.nomeUsuario,
       admin: Boolean(usuario.admin),
-      iat: Math.floor(Date.now() / 1000),
+      iat: issuedAt,
+      exp: issuedAt + TOKEN_TTL_SECONDS,
     })
   );
 
@@ -61,6 +64,13 @@ function verifyToken(token) {
 
   try {
     const decodedPayload = JSON.parse(base64UrlDecode(payload));
+    if (
+      !Number.isFinite(decodedPayload.exp) ||
+      decodedPayload.exp <= Math.floor(Date.now() / 1000)
+    ) {
+      return null;
+    }
+
     return decodedPayload;
   } catch (error) {
     return null;
