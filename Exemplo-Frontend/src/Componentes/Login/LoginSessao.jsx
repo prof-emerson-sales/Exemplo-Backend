@@ -8,18 +8,33 @@ async function getResponseData(response) {
 }
 
 function LoginSessao() {
+  const oauthResult = new URLSearchParams(window.location.search).get("oauth");
   const [form, setForm] = useState({
     emailUsuario: "",
     senhaUsuario: "",
   });
   const [usuario, setUsuario] = useState(null);
-  const [erro, setErro] = useState("");
-  const [status, setStatus] = useState("");
+  const [cadastroGoogle, setCadastroGoogle] = useState(null);
+  const [cpfGoogle, setCpfGoogle] = useState("");
+  const [erro, setErro] = useState(() => {
+    return oauthResult === "error" ? "Não foi possível concluir o login com Google." : "";
+  });
+  const [status, setStatus] = useState(() => (
+    oauthResult === "success"
+      ? "Login com Google concluído."
+      : oauthResult === "registration-required"
+        ? "Complete o cadastro informando seu CPF."
+        : ""
+  ));
   const [processando, setProcessando] = useState(false);
   const [verificandoSessao, setVerificandoSessao] = useState(true);
 
   useEffect(() => {
     let cancelado = false;
+
+    if (oauthResult) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
     async function carregarSessao() {
       try {
@@ -32,9 +47,27 @@ function LoginSessao() {
           throw new Error(data.error || "Não foi possível verificar a sessão.");
         }
 
+        if (!response.ok && response.status === 401) {
+          const pendingResponse = await fetch(`${SESSION_API_URL}/google/pending`, {
+            credentials: "include",
+          });
+
+          if (pendingResponse.ok) {
+            const pendingData = await getResponseData(pendingResponse);
+            if (!cancelado) {
+              setCadastroGoogle(pendingData.usuario);
+            }
+          } else if (pendingResponse.status !== 404) {
+            const pendingData = await getResponseData(pendingResponse);
+            throw new Error(pendingData.error || "Não foi possível carregar o cadastro Google.");
+          }
+        }
+
         if (!cancelado && response.ok) {
           setUsuario(data.usuario);
-          setStatus("Sessão existente confirmada pelo servidor.");
+          if (oauthResult !== "success") {
+            setStatus("Sessão existente confirmada pelo servidor.");
+          }
         }
       } catch (error) {
         if (!cancelado) {
@@ -51,11 +84,40 @@ function LoginSessao() {
     return () => {
       cancelado = true;
     };
-  }, []);
+  }, [oauthResult]);
 
   function handleChange(event) {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  }
+
+  async function handleGoogleRegistration(event) {
+    event.preventDefault();
+    setProcessando(true);
+    setErro("");
+    setStatus("");
+
+    try {
+      const response = await fetch(`${SESSION_API_URL}/google/register`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cpf: cpfGoogle }),
+      });
+      const data = await getResponseData(response);
+
+      if (!response.ok) {
+        throw new Error(data.error || "Não foi possível concluir o cadastro.");
+      }
+
+      setUsuario(data.usuario);
+      setCadastroGoogle(null);
+      setStatus("Cadastro e login com Google concluídos.");
+    } catch (error) {
+      setErro(error.message || "Não foi possível conectar ao servidor.");
+    } finally {
+      setProcessando(false);
+    }
   }
 
   async function handleSubmit(event) {
@@ -211,38 +273,69 @@ function LoginSessao() {
               </button>
             </div>
           </section>
-        ) : (
-          <form onSubmit={handleSubmit} className="login-session-form">
+        ) : cadastroGoogle ? (
+          <form onSubmit={handleGoogleRegistration} className="login-session-form">
+            <p>
+              Conta Google: <strong>{cadastroGoogle.emailUsuario}</strong>
+            </p>
+            <p>Nome: {cadastroGoogle.nomeUsuario}</p>
             <label>
-              E-mail
+              CPF
               <input
-                type="email"
-                name="emailUsuario"
-                value={form.emailUsuario}
-                onChange={handleChange}
-                placeholder="Digite o e-mail"
-                autoComplete="username"
+                type="text"
+                name="cpf"
+                value={cpfGoogle}
+                onChange={(event) => setCpfGoogle(event.target.value.replace(/\D/g, "").slice(0, 11))}
+                placeholder="Digite os 11 números do CPF"
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={11}
+                pattern="[0-9]{11}"
                 required
               />
             </label>
-
-            <label>
-              Senha
-              <input
-                type="password"
-                name="senhaUsuario"
-                value={form.senhaUsuario}
-                onChange={handleChange}
-                placeholder="Digite a senha"
-                autoComplete="current-password"
-                required
-              />
-            </label>
-
             <button type="submit" disabled={processando}>
-              {processando ? "Entrando..." : "Entrar"}
+              {processando ? "Concluindo cadastro..." : "Concluir cadastro"}
             </button>
           </form>
+        ) : (
+          <>
+            <form onSubmit={handleSubmit} className="login-session-form">
+              <label>
+                E-mail
+                <input
+                  type="email"
+                  name="emailUsuario"
+                  value={form.emailUsuario}
+                  onChange={handleChange}
+                  placeholder="Digite o e-mail"
+                  autoComplete="username"
+                  required
+                />
+              </label>
+
+              <label>
+                Senha
+                <input
+                  type="password"
+                  name="senhaUsuario"
+                  value={form.senhaUsuario}
+                  onChange={handleChange}
+                  placeholder="Digite a senha"
+                  autoComplete="current-password"
+                  required
+                />
+              </label>
+
+              <button type="submit" disabled={processando}>
+                {processando ? "Entrando..." : "Entrar"}
+              </button>
+            </form>
+            <div className="login-session-oauth">
+              <span>ou</span>
+              <a href={`${SESSION_API_URL}/google`}>Entrar com Google</a>
+            </div>
+          </>
         )}
 
         {status && <p className="login-session-feedback" role="status">{status}</p>}
