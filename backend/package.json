@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www"
+    "devstart": "nodemon ./bin/www",
+    "test": "jest --runInBand"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.10.0",
@@ -19,7 +20,9 @@
   },
   "devDependencies": {
     "dotenv": "^17.4.2",
+    "jest": "^30.5.2",
     "nodemon": "^3.1.14",
-    "prisma": "^7.10.0"
+    "prisma": "^7.10.0",
+    "supertest": "^7.3.1"
   }
 }
