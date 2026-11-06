@@ -29,7 +29,11 @@ describe("LoginSessao", () => {
   test("mostra o formulário quando não existe uma sessão autenticada", async () => {
     render(<LoginSessao />);
 
-    // Confirma que o formulário de login aparece quando não há uma sessão ativa.
+    // `screen` consulta o DOM criado por render. `findByRole` procura um elemento
+    // pela função acessível ("button") e pelo nome acessível ("Entrar"), que vem
+    // do texto do botão no componente. Como a tela consulta a sessão ao abrir,
+    // `findByRole` espera o botão aparecer; `await` aguarda essa busca terminar.
+    // `toBeTruthy` confirma que a busca encontrou um elemento.
     expect(await screen.findByRole("button", { name: "Entrar" })).toBeTruthy();
     // Confirma que o campo para informar o e-mail está disponível.
     expect(screen.getByLabelText("E-mail")).toBeTruthy();
