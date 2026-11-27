@@ -30,7 +30,7 @@ function CadastroUsuario() {
 
     try {
       const token = localStorage.getItem("authToken");
-      const response = await fetch("http://localhost:3000/Usuarios", {
+      const response = await fetch("http://192.168.0.6:3000/Usuarios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -40,7 +40,7 @@ describe("LoginSessao", () => {
     // Confirma que o campo para informar a senha está disponível.
     expect(screen.getByLabelText("Senha")).toBeTruthy();
     // Confirma que a tela consultou a sessão atual enviando o cookie do navegador.
-    expect(globalThis.fetch).toHaveBeenNthCalledWith(1, "http://localhost:3000/Sessao/me", {
+    expect(globalThis.fetch).toHaveBeenNthCalledWith(1, "http://192.168.0.6:3000/Sessao/me", {
       credentials: "include",
     });
   });
@@ -66,7 +66,7 @@ describe("LoginSessao", () => {
     // Confirma que a interface informa que o login foi concluído.
     expect(screen.getByRole("status").textContent).toContain("Login concluído");
     // Confirma que a requisição de login enviou e-mail, senha e cookie de sessão.
-    expect(globalThis.fetch).toHaveBeenNthCalledWith(3, "http://localhost:3000/Sessao/login", {
+    expect(globalThis.fetch).toHaveBeenNthCalledWith(3, "http://192.168.0.6:3000/Sessao/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -107,7 +107,7 @@ describe("LoginSessao", () => {
       expect(screen.getByRole("status").textContent).toContain("Produtos encontrados: 0");
     });
     // Confirma que a chamada para listar produtos também envia o cookie da sessão.
-    expect(globalThis.fetch).toHaveBeenNthCalledWith(2, "http://localhost:3000/Sessao/produtos", {
+    expect(globalThis.fetch).toHaveBeenNthCalledWith(2, "http://192.168.0.6:3000/Sessao/produtos", {
       credentials: "include",
     });
 
@@ -137,7 +137,7 @@ describe("LoginSessao", () => {
     // Confirma que, após concluir o cadastro, o nome aparece na conta autenticada.
     expect(await screen.findByRole("heading", { name: usuario.nomeUsuario })).toBeTruthy();
     // Confirma que o cadastro Google envia à API o CPF normalizado e o cookie.
-    expect(globalThis.fetch).toHaveBeenNthCalledWith(3, "http://localhost:3000/Sessao/google/register", {
+    expect(globalThis.fetch).toHaveBeenNthCalledWith(3, "http://192.168.0.6:3000/Sessao/google/register", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

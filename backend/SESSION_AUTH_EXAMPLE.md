@@ -11,14 +11,14 @@ Este exemplo roda em paralelo à autenticação JWT existente. As rotas JWT não
 Com `fetch`, inclua `credentials: "include"` em todas as chamadas:
 
 ```js
-const login = await fetch("http://localhost:3000/Sessao/login", {
+const login = await fetch("http://192.168.0.6:3000/Sessao/login", {
   method: "POST",
   credentials: "include",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ emailUsuario, senhaUsuario }),
 });
 
-const produtos = await fetch("http://localhost:3000/Sessao/produtos", {
+const produtos = await fetch("http://192.168.0.6:3000/Sessao/produtos", {
   credentials: "include",
 });
 ```
@@ -27,12 +27,12 @@ Para outro host ou porta do frontend, defina `FRONTEND_ORIGINS` como uma lista d
 
 ## Login com Google (OAuth 2.0)
 
-A tela `/login/sessao` também oferece login com Google. O exemplo usa o `fetch` nativo (Node.js 18+). No Google Cloud Console, crie um cliente OAuth do tipo **Aplicativo da Web**, cadastre `http://localhost:3000/Sessao/google/callback` como URI de redirecionamento autorizado e configure no arquivo `backend/.env`:
+A tela `/login/sessao` também oferece login com Google. O exemplo usa o `fetch` nativo (Node.js 18+). No Google Cloud Console, crie um cliente OAuth do tipo **Aplicativo da Web**, cadastre `http://192.168.0.6:3000/Sessao/google/callback` como URI de redirecionamento autorizado e configure no arquivo `backend/.env`:
 
 ```env
 GOOGLE_CLIENT_ID=seu-client-id
 GOOGLE_CLIENT_SECRET=seu-client-secret
-GOOGLE_CALLBACK_URL=http://localhost:3000/Sessao/google/callback
+GOOGLE_CALLBACK_URL=http://192.168.0.6:3000/Sessao/google/callback
 FRONTEND_URL=http://localhost:5173/login/sessao
 ```
 

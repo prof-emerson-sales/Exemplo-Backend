@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./ListaProdutos.css";
 
-const API_URL = "http://localhost:3000/Produtos";
+const API_URL = "http://192.168.0.6:3000/Produtos";
 
 function ListaProdutos() {
   const [produtos, setProdutos] = useState([]);

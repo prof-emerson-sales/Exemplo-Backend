@@ -19,7 +19,7 @@ function Login({ onLogin }) {
     setErro("");
 
     try {
-      const response = await fetch("http://localhost:3000/Usuarios/login", {
+      const response = await fetch("http://192.168.0.6:3000/Usuarios/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

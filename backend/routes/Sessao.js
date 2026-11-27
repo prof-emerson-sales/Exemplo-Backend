@@ -15,7 +15,7 @@ function getGoogleOAuthConfig() {
     clientId: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackUrl: process.env.GOOGLE_CALLBACK_URL
-      || "http://localhost:3000/Sessao/google/callback",
+      || "http://192.168.0.6:3000/Sessao/google/callback",
     frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173/login/sessao",
   };
 }

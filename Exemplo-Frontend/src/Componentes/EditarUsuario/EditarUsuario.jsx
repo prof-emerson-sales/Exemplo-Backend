@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./EditarUsuario.css";
 
-const API_URL = "http://localhost:3000/Usuarios";
+const API_URL = "http://192.168.0.6:3000/Usuarios";
 
 function EditarUsuario() {
   const { cpf } = useParams();

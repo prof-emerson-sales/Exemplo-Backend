@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./ListaUsuarios.css";
 
-const API_URL = "http://localhost:3000/Usuarios";
+const API_URL = "http://192.168.0.6:3000/Usuarios";
 
 function ListaUsuarios() {
   const [usuarios, setUsuarios] = useState([]);

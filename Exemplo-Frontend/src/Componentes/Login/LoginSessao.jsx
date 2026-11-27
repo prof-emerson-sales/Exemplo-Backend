@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Login.css";
 
-const SESSION_API_URL = "http://localhost:3000/Sessao";
+const SESSION_API_URL = "http://192.168.0.6:3000/Sessao";
 
 async function getResponseData(response) {
   return response.json().catch(() => ({}));
